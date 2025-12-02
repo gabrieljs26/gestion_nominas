@@ -1,60 +1,102 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="/var/lib/odoo/addons/18.0/gestion_nominas.list">
-      <field name="name">/var/lib/odoo/addons/18.0/gestion_nominas list</field>
-      <field name="model">/var/lib/odoo/addons/18.0/gestion_nominas./var/lib/odoo/addons/18.0/gestion_nominas</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </list>
-      </field>
+    <record id="view_gestion_nomina_form" model="ir.ui.view">
+        <field name="name">gestion.nomina.form</field>
+        <field name="model">gestion.nomina</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="estado" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="empleado_id"/>
+                            <field name="fecha"/>
+                            <field name="archivo_justificante" filename="nombre_archivo"/>
+                            <field name="nombre_archivo" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="sueldo_base" widget="monetary"/>
+                            <field name="irpf_porcentaje"/>
+                            <field name="irpf_pagado" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bonificaciones y Deducciones">
+                            <field name="linea_ids">
+                                <list editable="bottom">
+                                    <field name="concepto"/>
+                                    <field name="importe" widget="monetary"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
     </record>
--->
 
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="/var/lib/odoo/addons/18.0/gestion_nominas.action_window">
-      <field name="name">/var/lib/odoo/addons/18.0/gestion_nominas window</field>
-      <field name="res_model">/var/lib/odoo/addons/18.0/gestion_nominas./var/lib/odoo/addons/18.0/gestion_nominas</field>
-      <field name="view_mode">list,form</field>
+    <record id="view_gestion_nomina_list" model="ir.ui.view">
+        <field name="name">gestion.nomina.list</field>
+        <field name="model">gestion.nomina</field>
+        <field name="arch" type="xml">
+            <list decoration-info="estado == 'borrador'" decoration-success="estado == 'pagada'">
+                <field name="empleado_id"/>
+                <field name="fecha"/>
+                <field name="sueldo_base"/>
+                <field name="irpf_pagado"/>
+                <field name="estado" widget="badge"/>
+            </list>
+        </field>
     </record>
--->
 
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="/var/lib/odoo/addons/18.0/gestion_nominas.action_server">
-      <field name="name">/var/lib/odoo/addons/18.0/gestion_nominas server</field>
-      <field name="model_id" ref="model_/var/lib/odoo/addons/18.0/gestion_nominas_/var/lib/odoo/addons/18.0/gestion_nominas"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "list,form",
-          "res_model": model._name,
-        }
-      </field>
+    <record id="view_gestion_declaracion_form" model="ir.ui.view">
+        <field name="name">gestion.declaracion.form</field>
+        <field name="model">gestion.declaracion</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="anio" placeholder="Año"/></h1>
+                    </div>
+                    <group>
+                        <field name="empleado_id"/>
+                        <field name="sueldo_bruto_total" widget="monetary"/>
+                        <field name="impuestos_pagados_total" widget="monetary"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Nóminas del Año">
+                            <field name="nomina_ids">
+                                <list>
+                                    <field name="fecha"/>
+                                    <field name="sueldo_base"/>
+                                    <field name="irpf_pagado"/>
+                                    <field name="estado" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
     </record>
--->
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="/var/lib/odoo/addons/18.0/gestion_nominas" id="/var/lib/odoo/addons/18.0/gestion_nominas.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="/var/lib/odoo/addons/18.0/gestion_nominas.menu_1" parent="/var/lib/odoo/addons/18.0/gestion_nominas.menu_root"/>
-    <menuitem name="Menu 2" id="/var/lib/odoo/addons/18.0/gestion_nominas.menu_2" parent="/var/lib/odoo/addons/18.0/gestion_nominas.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="/var/lib/odoo/addons/18.0/gestion_nominas.menu_1_list" parent="/var/lib/odoo/addons/18.0/gestion_nominas.menu_1"
-              action="/var/lib/odoo/addons/18.0/gestion_nominas.action_window"/>
-    <menuitem name="Server to list" id="/var/lib/odoo/addons/18.0/gestion_nominas" parent="/var/lib/odoo/addons/18.0/gestion_nominas.menu_2"
-              action="/var/lib/odoo/addons/18.0/gestion_nominas.action_server"/>
--->
-  </data>
+    <record id="action_gestion_nomina" model="ir.actions.act_window">
+        <field name="name">Nóminas</field>
+        <field name="res_model">gestion.nomina</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_gestion_declaracion" model="ir.actions.act_window">
+        <field name="name">Declaración Renta</field>
+        <field name="res_model">gestion.declaracion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_gestion_root" name="RRHH Tarea 12"/>
+    <menuitem id="menu_gestion_nomina" parent="menu_gestion_root" action="action_gestion_nomina" sequence="1"/>
+    <menuitem id="menu_gestion_declaracion" parent="menu_gestion_root" action="action_gestion_declaracion" sequence="2"/>
 </odoo>

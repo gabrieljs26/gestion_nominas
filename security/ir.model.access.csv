@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_/var/lib/odoo/addons/18.0/gestion_nominas_/var/lib/odoo/addons/18.0/gestion_nominas,/var/lib/odoo/addons/18.0/gestion_nominas./var/lib/odoo/addons/18.0/gestion_nominas,model_/var/lib/odoo/addons/18.0/gestion_nominas_/var/lib/odoo/addons/18.0/gestion_nominas,base.group_user,1,1,1,1
+access_gestion_nomina,gestion.nomina,model_gestion_nomina,,1,1,1,1
+access_gestion_nomina_linea,gestion.nomina.linea,model_gestion_nomina_linea,,1,1,1,1
+access_gestion_declaracion,gestion.declaracion,model_gestion_declaracion,,1,1,1,1
